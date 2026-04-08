@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Falcons RP Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+
+        :root {
+            --neon-purple: #3b82f6;
+            --bg-deep: #06152d;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --border-glass: rgba(59, 130, 246, 0.18);
+            --text-main: #ffffff;
+            --text-muted: #bbb;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Tajawal', sans-serif;
+            color: var(--text-main);
+            background:
+                radial-gradient(circle at top, rgba(59, 130, 246, 0.18) 0%, transparent 36%),
+                radial-gradient(circle at center, #0b234a 0%, var(--bg-deep) 100%);
+            background-attachment: fixed;
+            line-height: 1.6;
+        }
+
+        .main-header {
+            width: fit-content;
+            margin: 30px auto;
+            padding: 18px 50px;
+            background: rgba(59, 130, 246, 0.09);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.32);
+
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.18),
+                inset 0 0 15px rgba(59, 130, 246, 0.08);
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.12),
+                    transparent);
+            transform: skewX(-25deg);
+            animation: sweep 6s infinite ease-in-out;
+        }
+
+        @keyframes sweep {
+            0% {
+                left: -110%;
+            }
+
+            20% {
+                left: 120%;
+            }
+
+            100% {
+                left: 120%;
+            }
+        }
+
+        .main-header h1 {
+            font-size: 24px;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.45);
+            z-index: 1;
+        }
+
+        #credit {
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+            z-index: 1;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto 50px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid var(--border-glass);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+
+
+
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 25px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(59, 130, 246, 0.14);
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 25px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-purple);
+        }
+
+        label {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            display: block;
+            text-align: right;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 15px;
+            border: 1px solid rgba(59, 130, 246, 0.14);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-family: 'Tajawal', sans-serif;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            transition: 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--neon-purple);
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 15px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .main-btn,
+        button:not(.btn-secondary):not(.btn-danger) {
+            background: var(--neon-purple);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
+        }
+
+        button:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: var(--neon-purple);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.12);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        th {
+            text-align: right;
+            padding: 15px;
+            color: var(--neon-purple);
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        td {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+        }
+
+        td:first-child {
+            border-radius: 0 15px 15px 0;
+        }
+
+        td:last-child {
+            border-radius: 15px 0 0 15px;
+        }
+
+        .site-footer {
+            margin-top: 50px;
+            text-align: center;
+            padding-bottom: 30px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .site-footer span {
+            color: var(--neon-purple);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .discord-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 15px;
+            color: #fff;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.22);
+            transition: 0.3s ease;
+            gap: 10px;
+        }
+
+        .discord-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-3px);
+        }
+
+        #notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: rgba(26, 11, 46, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #fff;
+            padding: 16px 24px;
+            border-radius: 15px;
+            min-width: 280px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            pointer-events: auto;
+            animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toast.success {
+            border-left: 5px solid #10b981;
+        }
+
+        .toast.error {
+            border-left: 5px solid #ef4444;
+        }
+
+        .toast.info {
+            border-left: 5px solid var(--neon-purple);
+        }
+
+        .toast-content {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .toast-close {
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+
+        .toast-close:hover {
+            opacity: 1;
+        }
+
+        .toast.hide {
+            animation: slideOutRight 0.4s ease forwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--neon-purple);
+            width: 100%;
+            animation: progress linear forwards;
+        }
+
+
+        @keyframes progress {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
+        .stats-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .stat-card {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            padding: 20px 25px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: row-reverse;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            cursor: default;
+        }
+
+        .stat-card:active {
+            transform: none !important;
+        }
+
+        .stat-card:hover {
+            border-color: var(--neon-purple);
+            transform: translateY(-2px);
+        }
+
+        .stat-right-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            background: rgba(59, 130, 246, 0.14);
+            padding: 10px;
+            border-radius: 12px;
+            color: var(--neon-purple);
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #00f2ff;
+            text-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        }
+
+        .reset-btn-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-reset-total {
+            background: rgba(255, 68, 68, 0.1) !important;
+            color: #ff4444 !important;
+            border: 1px solid #ff4444 !important;
+            padding: 8px 18px !important;
+            border-radius: 10px !important;
+            font-size: 12px !important;
+            font-weight: bold !important;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .btn-reset-total:hover {
+            background: #ff4444 !important;
+            color: white !important;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .blur-active-site {
+            filter: blur(12px) brightness(0.8) grayscale(20%);
+            pointer-events: none;
+            transition: filter 0.4s ease, transform 0.4s ease;
+            transform: scale(0.99);
+        }
+
+        #resetTotalBtn {
+            background: rgba(255, 68, 68, 0.1);
+            color: #ff4444;
+            border: 1px solid #ff4444;
+            padding: 5px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #resetTotalBtn:hover {
+            background: #ff4444;
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+
+
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 100000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #0f0a1a;
+            padding: 35px;
+            border-radius: 25px;
+            border: 2px solid var(--neon-purple);
+            width: 380px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.32);
+            animation: modalPopBouncy 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+
+        @keyframes modalPopBouncy {
+            from {
+                transform: scale(0.6);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: center;
+        }
+
+        .btn-confirm {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-confirm:hover {
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+
+
+        #ticketsWrapper {
+            overflow: visible !important;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-purple);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="main-site-wrapper">
+
+        <header class="main-header">
+            <h1>لوحة تحكم Falcons RP</h1>
+            <p id="credit">Falcons RP Ticket Dashboard</p>
+        </header>
+
+        <main>
+
+            <div class="toolbar">
+                <div class="muted" style="font-weight: 600;">الإعدادات العامة</div>
+                <div style="flex:1;text-align:center"></div>
+                <div class="actions flex">
+                    <button id="toolbarSave" class="btn-secondary">حفظ</button>
+                    <button id="toolbarPublish">نشر</button>
+                </div>
+            </div>
+
+            <div class="stats-card-wrapper" id="ticketsWrapper"
+                style="width: 100%; direction: rtl; display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; overflow: visible !important;">
+
+                <div id="totalTicketsCard"
+                    style="cursor: default; pointer-events: none; display: flex; align-items: center; justify-content: space-between; padding: 15px 25px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(59, 130, 246, 0.14); border-radius: 15px; position: relative; z-index: 10; width: 100%; box-sizing: border-box;">
+
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <span style="font-size: 26px; 
+                             background: rgba(255, 255, 255, 0.1); 
+                             padding: 13.5px; 
+                             border-radius: 21px; 
+                             display: flex; 
+                             align-items: center; 
+                             justify-content: center; 
+                             color: var(--neon-purple); 
+                             line-height: 1; 
+                             width: 55px; 
+                             height: 55px; 
+                             box-sizing: border-box;">
+                            🎫
+                        </span>
+
+                        <span
+                            style="font-size: 16px; font-weight: bold; color:#ffffff; font-family: 'Tajawal', sans-serif;">
+                            إجمالي تذاكر البوت
+                        </span>
+                    </div>
+                    <span id="total-tickets-count" style="font-size: 24px; font-weight: bold; color: #ffffff;">0</span>
+                </div>
+                <div
+                    style="display: flex; justify-content: flex-start; width: 100%; pointer-events: auto; margin-top: 5px;">
+                    <button type="button" onclick="showConfirmModal()" style="background: var(--neon-purple); 
+                                  color: white; 
+                                  padding: 12px 25px; 
+                                  border-radius: 15px; 
+                                  border: none; 
+                                  font-family: 'Tajawal', sans-serif; 
+                                  font-size: 14px; 
+                                  font-weight: 700; 
+                                  cursor: pointer; 
+                                  transition: 0.3s ease; 
+                                  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
+                                  display: inline-flex;
+                                  align-items: center;
+                                  gap: 8px;">
+                        <i class="fas fa-trash-alt" style="font-size: 12px;"></i> تصفير كل التذاكر
+                    </button>
+                </div>
+            </div>
+
+            <section>
+                <label for="guildSelect">اختيار السيرفر</label>
+                <select id="guildSelect"></select>
+
+                <div class="flex">
+                    <button id="fetchPanel">تحديث موارد السيرفر</button>
+                    <button id="publishPanel" style="display: none;">إنشاء لوحة جديدة</button>
+                </div>
+            </section>
+
+            <br>
+
+            <section>
+                <div class="grid">
+
+                    <div class="span-8 card">
+                        <h3>إعدادات التذاكر والقنوات</h3>
+
+                        <label for="channelId">القناة التي يُرسل فيها اللوحة</label>
+                        <select id="channelId"></select>
+
+                        <label for="ticketCategoryId">التصنيف (Category) لفتح التذاكر</label>
+                        <select id="ticketCategoryId">
+                            <option value="">-- اختياري --</option>
+                        </select>
+
+                        <label for="selectPlaceholder">نص تلميح القائمة</label>
+                        <input id="selectPlaceholder" placeholder="اختر القسم المناسب لمشكلتك..." />
+
+                        <div class="card" style="background: rgba(0,0,0,0.2); margin-top: 20px;">
+
+                            <div class="grid">
+                                <div class="span-6">
+                                    <label for="claimLogChannelId">لوج الاستلام</label>
+                                    <select id="claimLogChannelId">
+                                        <option value="">بدون</option>
+                                    </select>
+                                </div>
+
+                                <div class="span-6">
+                                    <label for="closeLogChannelId">لوج التذاكر</label>
+                                    <select id="closeLogChannelId">
+                                        <option value="">بدون</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="flex" style="align-items:flex-end">
+                                <div style="flex:3">
+                                    <label for="resetUserId">تصفير إحصائيات عضو</label>
+                                    <input id="resetUserId" placeholder="User ID" />
+                                </div>
+                                <button id="resetStats" class="btn-danger" style="margin-bottom:15px">
+                                    تصفير
+                                </button>
+                            </div>
+
+                            <div class="flex"
+                                style="justify-content: space-between; align-items:center; margin-top: 15px;">
+                                <h4 class="muted" style="margin:0">ترتيب الطاقم (Top Staff)</h4>
+                                <button id="refreshStats" class="btn-secondary"
+                                    style="padding: 5px 10px; font-size: 12px;">
+                                    تحديث
+                                </button>
+                            </div>
+
+                            <table id="statsTable">
+                                <thead>
+                                    <tr>
+                                        <th>المستخدم</th>
+                                        <th>ID</th>
+                                        <th style="text-align:center">التذاكر</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="span-4 card">
+                        <h3>أدوار الطاقم</h3>
+                        <select id="availableRoles"></select>
+                        <button id="addRole" style="width: 100%; margin-top: 5px;">
+                            + إضافة الدور
+                        </button>
+                        <ul id="staffRoles"></ul>
+                    </div>
+
+                </div>
+            </section>
+
+            <br>
+
+            <section>
+                <div class="grid">
+
+                    <div class="span-8 card">
+                        <h3>تصميم كونتينر اللوحة</h3>
+
+                        <label>عنوان الرسالة</label>
+                        <input id="embedTitle" placeholder="مركز المساعدة" />
+
+                        <label>وصف اللوحة</label>
+                        <textarea id="embedDescription" rows="4"></textarea>
+
+                        <label>رسالة الترحيب (داخل التذكرة)</label>
+                        <textarea id="ticketMessage" rows="3"></textarea>
+                    </div>
+                    <br>
+                    <div class="span-4 card">
+                        <h3>المظهر</h3>
+
+                        <label>لون الكونتينر</label>
+                        <div class="flex">
+                            <input id="embedColor" type="color" value="#5865f2"
+                                style="width:50px; height:45px; padding:2px;" />
+
+                            <div id="colorPreview"
+                                style="flex:1; border-radius:12px; border:1px solid var(--border-color); display:flex; align-items:center; justify-content:center;">
+                                <span id="colorPreviewText" style="font-size:12px; font-weight:bold;"></span>
+                            </div>
+                        </div>
+
+                        <button id="applyColor" class="btn-secondary" style="width:100%; margin: 10px 0;">
+                            تحديث المعاينة
+                        </button>
+
+                        <label>رابط الصورة (Image)</label>
+                        <input id="embedImageUrl" placeholder="https://..." />
+
+                        <label>رابط الصورة (Thumbnail)</label>
+                        <input id="embedThumbnailUrl" placeholder="https://..." />
+                    </div>
+
+                </div>
+            </section>
+
+            <br>
+
+            <section>
+                <div class="flex" style="justify-content: space-between; margin-bottom: 20px;">
+                    <h2>
+                        خيارات القائمة
+                        <span id="menuCount" class="muted" style="font-size:14px"></span>
+                    </h2>
+
+                    <button id="addMenuOption" style="background: #10b981;">
+                        + إضافة خيار
+                    </button>
+                </div>
+
+                <div id="menuOptions" class="grid"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal-content">
+            <h4>تنبية بشأن تصفير</h4>
+            <p>هل انت متأكد من تصفير جميع اعداد التذاكر بالبوت؟</p>
+            <div class="modal-actions">
+                <button onclick="executeReset()" class="btn-confirm">تأكيد عملية التصفير</button>
+                <button onclick="closeConfirmModal()" class="btn-cancel">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    const guildSelect = document.getElementById('guildSelect');
+    const channelSelect = document.getElementById('channelId');
+    const ticketCategorySelect = document.getElementById('ticketCategoryId');
+    const availableRolesSelect = document.getElementById('availableRoles');
+    const staffRolesList = document.getElementById('staffRoles');
+    const embedTitleInput = document.getElementById('embedTitle');
+    const embedDescriptionInput = document.getElementById('embedDescription');
+    const embedColorInput = document.getElementById('embedColor');
+    const colorPreview = document.getElementById('colorPreview');
+    const colorPreviewText = document.getElementById('colorPreviewText');
+    const embedImageUrlInput = document.getElementById('embedImageUrl');
+    const embedThumbnailUrlInput = document.getElementById('embedThumbnailUrl');
+    const ticketMessageInput = document.getElementById('ticketMessage');
+    const selectPlaceholderInput = document.getElementById('selectPlaceholder');
+    const claimLogChannelSelect = document.getElementById('claimLogChannelId');
+    const closeLogChannelSelect = document.getElementById('closeLogChannelId');
+    const menuContainer = document.getElementById('menuOptions');
+    const resetUserIdInput = document.getElementById('resetUserId');
+    const statsTable = document.getElementById('statsTable');
+    const card = document.getElementById('totalTicketsCard');
+    const ticketsWrapper = document.getElementById('ticketsWrapper');
+    const dropdown = document.getElementById('resetDropdown');
+
+    card.addEventListener('click', () => {
+        dropdown.classList.toggle('active');
+    });
+
+    if (card) {
+        card.onclick = function () {
+            ticketsWrapper.classList.toggle('expanded');
+            const isActive = dropdown.classList.toggle('active');
+
+            if (isActive) {
+                dropdown.style.display = "block";
+                dropdown.style.opacity = "1";
+                dropdown.style.visibility = "visible";
+                dropdown.style.top = "115px"; 
+                dropdown.style.zIndex = "9999";
+            } else {
+                dropdown.style.opacity = "0";
+                dropdown.style.visibility = "hidden";
+                dropdown.style.top = "50%";
+            }
+        }; 
+    }
+
+    function showConfirmModal() {
+        const siteWrapper = document.getElementById('main-site-wrapper');
+        const modal = document.getElementById('confirmModal');
+
+        if (siteWrapper && modal) {
+            siteWrapper.classList.add('blur-active-site');
+            modal.classList.add('active');
+        }
+    }
+
+    function closeConfirmModal() {
+        const siteWrapper = document.getElementById('main-site-wrapper');
+        const modal = document.getElementById('confirmModal');
+
+        if (siteWrapper && modal) {
+            siteWrapper.classList.remove('blur-active-site');
+            modal.classList.remove('active');
+        }
+    }
+    async function executeReset() {
+        const guildId = document.getElementById("guildSelect").value;
+        closeConfirmModal();
+
+        try {
+            const res = await fetch(`/api/guilds/${guildId}/total-stats/reset`, { method: "POST" });
+            const data = await res.json();
+
+            if (data.success) {
+                document.getElementById("total-tickets-count").innerText = "0";
+                showNotify("تم تصفير جميع البيانات بنجاح", "success");
+            } else {
+                showNotify("فشل التصفير: " + data.message, "error");
+            }
+        } catch (err) {
+            showNotify("تعذر الاتصال بالسيرفر ❌", "error");
+        }
+    }
+
+
+    async function loadDashboardStats() {
+        const params = new URLSearchParams(window.location.search);
+
+        let guildId =
+            params.get("guildId") ||
+            (guildSelect ? guildSelect.value : null);
+
+        if (!guildId || guildId === "none") {
+            console.warn("⚠️ لم يتم تحديد سيرفر");
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/guilds/${guildId}/total-stats`);
+
+            if (!res.ok) {
+                throw new Error("Response not OK");
+            }
+
+            const data = await res.json();
+
+            const totalElement = document.getElementById("total-tickets-count");
+            if (totalElement) {
+                totalElement.innerText = data.total ?? 0;
+            }
+
+        } catch (err) {
+            console.error("❌ loadDashboardStats error:", err);
+        }
+    }
+
+    guildSelect?.addEventListener("change", loadDashboardStats);
+
+    window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(loadDashboardStats, 800);
+    });
+
+
+    function showNotify(message, type = 'success', duration = 4000) {
+        let container = document.getElementById('notification-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'notification-container';
+            document.body.appendChild(container);
+        }
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+                <div class="toast-content">${message}</div>
+                <span class="toast-close">&times;</span>
+                <div class="toast-progress" style="animation-duration: ${duration}ms"></div>
+            `;
+
+        container.appendChild(toast);
+
+        const closeToast = () => {
+            toast.classList.add('hide');
+            setTimeout(() => toast.remove(), 400);
+        };
+
+        toast.querySelector('.toast-close').onclick = closeToast;
+        setTimeout(() => { if (toast.parentNode) closeToast(); }, duration);
+    }
+
+    document.getElementById('fetchPanel').addEventListener('click', async () => {
+        await fetchResources();
+        await fetchPanel();
+    });
+
+    document.getElementById('publishPanel').addEventListener('click', publishPanel);
+    document.getElementById('toolbarSave').addEventListener('click', savePanel);
+    document.getElementById('toolbarPublish').addEventListener('click', publishPanel);
+    document.getElementById('addMenuOption').addEventListener('click', () => addMenuOption());
+    document.getElementById('addRole').addEventListener('click', addRoleToList);
+    document.getElementById('applyColor').addEventListener('click', savePanel);
+    document.getElementById('resetStats').addEventListener('click', resetStats);
+    document.getElementById('refreshStats').addEventListener('click', loadStats);
+
+    function updateColorPreview() {
+        const hex = embedColorInput.value || '#5865f2';
+        colorPreview.style.background = hex;
+        colorPreviewText.textContent = hex.toUpperCase();
+    }
+    embedColorInput.addEventListener('input', updateColorPreview);
+
+    function createMenuDom(option = { label: '', description: '' }) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'span-6 menu-item';
+        wrapper.innerHTML = `
+                <label>العنوان</label>
+                <input value="${option.label}" class="menu-label" placeholder="مثال: شكوى" />
+                <label>الوصف</label>
+                <input value="${option.description}" class="menu-description" placeholder="وصف قصير للمهمة" />
+                <div class="option-actions">
+                    <button type="button" class="up btn-secondary">▲</button>
+                    <button type="button" class="down btn-secondary">▼</button>
+                    <button type="button" class="dup btn-secondary">نسخ</button>
+                    <button type="button" class="remove btn-danger">حذف</button>
+                </div>
+            `;
+        wrapper.querySelector('.remove').addEventListener('click', () => { wrapper.remove(); updateMenuCount(); });
+        wrapper.querySelector('.up').addEventListener('click', () => moveOption(wrapper, -1));
+        wrapper.querySelector('.down').addEventListener('click', () => moveOption(wrapper, 1));
+        wrapper.querySelector('.dup').addEventListener('click', () => duplicateOption(wrapper));
+        menuContainer.appendChild(wrapper);
+        updateMenuCount();
+    }
+
+    function addMenuOption(option) {
+        createMenuDom({ label: option?.label || '', description: option?.description || '' });
+    }
+
+    function updateMenuCount() {
+        const count = menuContainer.querySelectorAll('.menu-item').length;
+        const el = document.getElementById('menuCount');
+        if (el) el.textContent = `(${count}/25)`;
+    }
+
+    function moveOption(wrapper, delta) {
+        const items = [...menuContainer.querySelectorAll('.menu-item')];
+        const idx = items.indexOf(wrapper);
+        const target = idx + delta;
+        if (target < 0 || target >= items.length) return;
+        if (delta < 0) menuContainer.insertBefore(wrapper, items[target]);
+        else menuContainer.insertBefore(items[target], wrapper);
+    }
+
+    function duplicateOption(wrapper) {
+        const label = wrapper.querySelector('.menu-label').value;
+        const description = wrapper.querySelector('.menu-description').value;
+        createMenuDom({ label, description });
+    }
+    function addRoleChip(roleId) {
+        if (!roleId) return;
+        const exists = !![...staffRolesList.querySelectorAll('li')].find((li) => li.dataset.id === roleId);
+        if (exists) return;
+
+        const li = document.createElement('li');
+        li.dataset.id = roleId;
+        li.className = 'role-chip';
+        li.style.cssText = 'display:inline-flex; align-items:center; gap:8px; border:1px solid var(--neon-purple); padding:6px 12px; border-radius:999px; margin:4px; background:rgba(59, 130, 246, 0.14); font-size:13px; color: white;';
+
+        const opt = [...availableRolesSelect.options].find((o) => o.value === roleId);
+        li.textContent = opt ? opt.textContent : roleId;
+
+        const btn = document.createElement('span');
+        btn.innerHTML = ' &times;';
+        btn.style.cssText = 'cursor:pointer; font-weight:bold; color:#ef4444; margin-right:5px;';
+        btn.addEventListener('click', () => li.remove());
+
+        li.appendChild(btn);
+        staffRolesList.appendChild(li);
+    }
+
+    function addRoleToList() {
+        const roleId = availableRolesSelect.value;
+        if (!roleId) return showNotify('اختر رتبة أولاً', 'info');
+        addRoleChip(roleId);
+    }
+
+    function collectRoleIds() {
+        return [...staffRolesList.querySelectorAll('li')].map((li) => li.dataset.id);
+    }
+
+    function collectMenuOptions() {
+        return [...menuContainer.querySelectorAll('.menu-item')].map((item) => ({
+            label: item.querySelector('.menu-label').value,
+            description: item.querySelector('.menu-description').value
+        }));
+    }
+
+    function slugify(text) {
+        return (text || '').toString().trim().toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '_').replace(/^_+|_+$/g, '').slice(0, 50) || 'option';
+    }
+
+    function sanitizeMenuOptions(options) {
+        let normalized = options
+            .map((o) => ({
+                label: (o.label || '').trim(),
+                value: (o.value || '').trim(),
+                description: (o.description || '').trim().slice(0, 100)
+            }))
+            .filter((o) => o.label);
+
+        const seen = new Map();
+        return normalized.map((o) => {
+            let base = o.value || slugify(o.label);
+            let candidate = base;
+            let i = 2;
+            while (seen.has(candidate)) { candidate = `${base}-${i++}`; }
+            seen.set(candidate, true);
+            return { ...o, value: candidate };
+        });
+    }
+
+    async function fetchResources() {
+        const guildId = guildSelect.value;
+        if (!guildId) return showNotify('يرجى كتابة معرّف السيرفر أولاً', 'info');
+        try {
+            const res = await fetch(`/api/guilds/${guildId}/resources`, { cache: 'no-store' });
+            if (!res.ok) throw new Error();
+            const data = await res.json();
+            const chHtml = data.channels.map((ch) => `<option value="${ch.id}">${ch.name}</option>`).join('');
+            channelSelect.innerHTML = chHtml;
+            claimLogChannelSelect.innerHTML = '<option value="">بدون</option>' + chHtml;
+            closeLogChannelSelect.innerHTML = '<option value="">بدون</option>' + chHtml;
+            ticketCategorySelect.innerHTML = '<option value="">اختياري</option>' + data.categories.map((cat) => `<option value="${cat.id}">${cat.name}</option>`).join('');
+            availableRolesSelect.innerHTML = data.roles.map((role) => `<option value="${role.id}">${role.name}</option>`).join('');
+            showNotify('تم تحديث موارد السيرفر بنجاح', 'success');
+        } catch (e) {
+            showNotify('تعذر تحميل بيانات السيرفر', 'error');
+        }
+    }
+
+    async function fetchPanel() {
+        const guildId = guildSelect.value;
+        if (!guildId) return;
+        try {
+            const res = await fetch(`/api/guilds/${guildId}/panel`, { cache: 'no-store' });
+            if (!res.ok) return;
+            const panel = await res.json();
+            if (!panel) return;
+
+            channelSelect.value = panel.channelId;
+            ticketCategorySelect.value = panel.ticketCategoryId ?? '';
+            staffRolesList.innerHTML = '';
+            (panel.staffRoleIds ?? []).forEach(addRoleChip);
+            embedTitleInput.value = panel.embedTitle;
+            embedDescriptionInput.value = panel.embedDescription;
+            embedColorInput.value = `#${(panel.embedColor ?? 0).toString(16).padStart(6, '0')}`;
+            updateColorPreview();
+            embedImageUrlInput.value = panel.embedImageUrl || '';
+            embedThumbnailUrlInput.value = panel.embedThumbnailUrl || '';
+            ticketMessageInput.value = panel.ticketMessage || '';
+            selectPlaceholderInput.value = panel.selectPlaceholder || '';
+            claimLogChannelSelect.value = panel.claimLogChannelId || '';
+            closeLogChannelSelect.value = panel.closeLogChannelId || '';
+            menuContainer.innerHTML = '';
+            panel.menuOptions.forEach(addMenuOption);
+        } catch (e) { }
+    }
+
+    async function savePanel() {
+        const guildId = guildSelect.value;
+        if (!guildId) return showNotify('اكتب معرّف السيرفر للحفظ', 'info');
+
+        const rawOptions = collectMenuOptions();
+        const menuOptions = sanitizeMenuOptions(rawOptions);
+
+        if (menuOptions.length === 0) return showNotify('أضف خياراً واحداً على الأقل للمنيو', 'error');
+
+        const payload = {
+            channelId: channelSelect.value,
+            ticketCategoryId: ticketCategorySelect.value || undefined,
+            staffRoleIds: collectRoleIds(),
+            embedTitle: embedTitleInput.value,
+            embedDescription: embedDescriptionInput.value,
+            embedColor: embedColorInput.value,
+            embedImageUrl: embedImageUrlInput.value,
+            embedThumbnailUrl: embedThumbnailUrlInput.value,
+            ticketMessage: ticketMessageInput.value,
+            selectPlaceholder: selectPlaceholderInput.value,
+            claimLogChannelId: claimLogChannelSelect.value || undefined,
+            closeLogChannelId: closeLogChannelSelect.value || undefined,
+            menuOptions
+        };
+
+        try {
+            const res = await fetch(`/api/guilds/${guildId}/panel`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) {
+                const data = await res.json();
+                return showNotify(data.message || 'خطأ في الحفظ', 'error');
+            }
+            showNotify('تم حفظ الإعدادات بنجاح', 'success');
+            await fetchPanel();
+        } catch (e) {
+            showNotify('حدث خطأ غير متوقع أثناء الحفظ', 'error');
+        }
+    }
+
+    async function publishPanel() {
+        const guildId = guildSelect.value;
+        if (!guildId) return showNotify('يرجى تحديد السيرفر أولاً', 'info');
+        try {
+            const res = await fetch(`/api/guilds/${guildId}/panel/publish`, { method: 'POST' });
+            const data = await res.json();
+            if (!res.ok) return showNotify(data.message || 'تعذر نشر اللوحة', 'error');
+            showNotify('تم نشر لوحة التذاكر في الديسكورد بنجاح', 'success');
+        } catch (e) {
+            showNotify('خطأ في الاتصال بالسيرفر أثناء النشر', 'error');
+        }
+    }
+
+    async function resetStats() {
+        const guildId = guildSelect.value;
+        if (!guildId) return showNotify('اختر السيرفر أولاً', 'info');
+        const userId = (resetUserIdInput.value || '').trim();
+        try {
+            const res = await fetch(`/api/guilds/${guildId}/stats/reset`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userId ? { userId } : {})
+            });
+            if (!res.ok) return showNotify('فشلت عملية التصفير', 'error');
+            showNotify(userId ? `تم تصفير إحصائيات ${userId}` : 'تم تصفير جميع الإحصائيات', 'success');
+            await loadStats();
+        } catch (e) {
+            showNotify('خطأ في تصفير البيانات', 'error');
+        }
+    }
+
+    async function loadStats() {
+        const guildId = guildSelect.value;
+        if (!guildId) return;
+
+        try {
+            const res = await fetch(`/api/guilds/${guildId}/stats/top?limit=20`, { cache: 'no-store' });
+            if (!res.ok) return;
+
+            const rows = (await res.json()) || [];
+            const tbody = statsTable.querySelector('tbody');
+            const nonZero = rows.filter((r) => (r.claimedCount || 0) > 0);
+
+            if (!nonZero.length) {
+                tbody.innerHTML = `<tr><td colspan="3" class="muted" style="text-align:center; padding: 15px;">لا توجد بيانات متاحة</td></tr>`;
+            } else {
+                tbody.innerHTML = nonZero.map((r) => `
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); display:flex; align-items:center; gap:8px;">
+                        <img src="${r.avatar}" 
+                             style="width:24px; height:24px; border-radius:50%; object-fit:cover;">
+                        <span>${r.username || r.userId}</span>
+                    </td>
+
+                    <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05)">
+                        ${r.userId}
+                    </td>
+
+                    <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align:center">
+                        ${r.claimedCount}
+                    </td>
+                </tr>
+            `).join('');
+            }
+        } catch (e) {
+            console.error("❌ loadStats error:", e);
+        }
+    }
+
+    async function loadGuilds() {
+        try {
+            const res = await fetch('/api/guilds', { cache: 'no-store' });
+            if (!res.ok) return;
+            const guilds = await res.json();
+            guildSelect.innerHTML = guilds.map((g) => `<option value="${g.id}">${g.name}</option>`).join('');
+        } catch (e) { }
+    }
+
+    (async () => {
+        await loadGuilds();
+        if (guildSelect.value) {
+            await fetchResources();
+            await fetchPanel();
+        }
+        updateColorPreview();
+        await loadStats();
+
+    })();
+
+</script>
+</body>
+
+</html>
