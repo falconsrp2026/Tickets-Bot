@@ -27,13 +27,22 @@ const client = new Client({
 });
 
 client.commands = new Collection();
-const PREFIX = '-'; 
+const PREFIX = process.env.PREFIX || "-";
+
+function requireEnv(name) {
+  const value = process.env[name];
+  if (!value || !String(value).trim()) {
+    throw new Error(`Missing required env var: ${name}`);
+  }
+  return value;
+}
 
 async function bootstrap() {
-  const { DISCORD_TOKEN, MONGO_URI } = process.env;
-  
+  const DISCORD_TOKEN = requireEnv("DISCORD_TOKEN");
+  const MONGO_URI = requireEnv("MONGO_URI");
+
   await mongoose.connect(MONGO_URI);
-  logger.info('متصل بقاعدة بيانات MongoDB');
+  logger.info("Connected to MongoDB");
 
   const ticketService = createTicketService({ client, logger });
 
@@ -105,7 +114,8 @@ async function bootstrap() {
   });
 
   const port = process.env.PORT || 3000;
-  await startWebServer({ client, logger, ticketService, port, host: '0.0.0.0' });
+  const host = process.env.HOST || "0.0.0.0";
+  await startWebServer({ client, logger, ticketService, port, host });
   await client.login(DISCORD_TOKEN);
 }
 
